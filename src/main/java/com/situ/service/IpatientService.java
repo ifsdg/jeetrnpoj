@@ -8,6 +8,8 @@ import com.situ.entry.Patient;
 
 public interface IpatientService {
 
+	public List<Patient> findpatients(String ope, String data) throws SQLException;
+	
 	public List<Patient> selectpatients(String pnum, String psize) throws SQLException;
 
 	public Integer countpatients() throws SQLException;

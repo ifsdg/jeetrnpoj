@@ -52,4 +52,10 @@ WardDao dao=new WardDao();
 		return dao.selectWard(id);
 	}
 
+	@Override
+	public List<Ward> selectward(String deptid) throws SQLException {
+		// TODO Auto-generated method stub
+		return dao.selectWards(deptid);
+	}
+
 }
