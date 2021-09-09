@@ -28,7 +28,7 @@ layui.config({
 				"children": [{
 					"title": "新增病号",
 					"icon": "&#xe641;",
-					"href": "patient/add.jsp"
+					"href": "patient/addpatient.jsp"
 				},{
 					"title": "住院列表",
 					"icon": "&#xe641;",
