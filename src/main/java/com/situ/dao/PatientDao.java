@@ -26,8 +26,17 @@ public class PatientDao {
 	 */
 	public List<Patient> selectPatients(String pnum,String psize) throws SQLException {
 		String sql="select patient.*,doctor.`name` AS doctor ,department.`name` AS dep  "
-				+ "from patient LEFT JOIN doctor ON doctor.cardno=patient.doctor_id LEFT JOIN department ON department.id=doctor.dept_id "
+				+ "from patient LEFT JOIN doctor ON doctor.id=patient.doctor_id LEFT JOIN department ON "
+				+ "department.id=doctor.dept_id "
 				+ "limit "+pnum+","+psize;
+		return DataSouseutil.executeQuery(sql, Patient.class);
+		
+	}
+	
+	public List<Patient> findPatients(String ope,String data) throws SQLException {
+		String sql="select patient.*,doctor.`name` AS doctor ,department.`name` AS dep  "
+				+ "from patient LEFT JOIN doctor ON doctor.id=patient.doctor_id LEFT JOIN department ON department.id=doctor.dept_id "
+				+" where instr(patient."+ope+",'" + data + "')>0";
 		return DataSouseutil.executeQuery(sql, Patient.class);
 		
 	}
@@ -59,8 +68,8 @@ public class PatientDao {
 	 * @throws SQLException
 	 */
 	public Integer updatePatient(Patient patient) throws SQLException {
-		String sql="update patient set name=?,gender=?,age=?,inpatientno=?,doctor_id=?,ward_id=?  where id=?";
-		return DataSouseutil.executeUpdate(sql,patient.getName(),patient.getGender(),patient.getAge(),patient.getInpatientno(),patient.getDoctor_id(),patient.getWard_id()
+		String sql="update patient set name=?,age=?,inpatientno=?,doctor_id=?,ward_id=?  where id=?";
+		return DataSouseutil.executeUpdate(sql,patient.getName(),patient.getAge(),patient.getInpatientno(),patient.getDoctor_id(),patient.getWard_id()
 				,patient.getId());
 		
 	}

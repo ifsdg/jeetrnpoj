@@ -46,4 +46,10 @@ PatientDao dao=new PatientDao();
 		return -1;
 	}
 
+	@Override
+	public List<Patient> findpatients(String ope, String data) throws SQLException {
+		// TODO Auto-generated method stub
+		return dao.findPatients(ope, data);
+	}
+
 }

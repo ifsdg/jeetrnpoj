@@ -99,7 +99,7 @@ public class WardServlet extends HttpServlet {
 			JSONArray jsonArray = new JSONArray(list);
 			response.setCharacterEncoding("UTF-8");
 			response.setContentType("text/html;charset=UTF-8");
-			String aString = "{\"code\":0,\"count\":" + list.size() + ",\"data\":" + jsonArray.toString() + "}";
+			String aString = "{\"code\":0,\"count\":" + service.countwards() + ",\"data\":" + jsonArray.toString() + "}";
 			response.getWriter().write(aString);
 		} catch (SQLException | IOException e) {
 			// TODO Auto-generated catch block

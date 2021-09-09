@@ -9,6 +9,16 @@
 		<title></title>
 	</head>
 	<body>
+	<div class="layui-inline layui-form">
+				<select id="tserch" class="layui-select" lay-filter="tar">
+					<option value="id"> 搜索ID</option>
+					<option value="name"> 搜索姓名</option>
+				</select>
+			</div>
+			<div class="layui-inline">
+				<input class="layui-input"  id="Reload" autocomplete="off">
+			</div>
+			<button class="layui-btn" data-type="reload" id="serBtn">搜索</button>
 	
 		<table border="" class="layui-table" id="rtab" lay-filter="try">
 
@@ -22,25 +32,7 @@
 		<script type="text/javascript" src="../plugins/layui/layui.js"></script>
 
 
-		<script type="text/html" id="toolbar">
-		<div class="demoTable layui-form layui-inline">
-		
-			<div class="layui-inline">
-				<select id="tserch" class="layui-select">
-					<option value="id"> 搜索ID</option>
-					<option value="name"> 搜索姓名</option>
-				</select>
-			</div>
-			<div class="layui-inline">
-				<input class="layui-input"  id="Reload" autocomplete="off">
-			</div>
-			<button class="layui-btn" data-type="reload" id="serBtn">搜索</button>
-		
-		</div>
-			<div class="layui-btn-container layui-inline">
-				<!--<a class="layui-btn" href="" id="adduser">添加新hz</a>-->
-			</div>
-		</script>
+	
 
 		<script type="text/html" id="sidebar">
 			<div class="layui-btn-container">
@@ -59,7 +51,6 @@
 					page: true,
 					limits: [5, 10, 15, 20],
 					limit: 5,
-					toolbar: '#toolbar',
 					id: 'rtab',
 					where: {
 						action:'list'
@@ -125,13 +116,13 @@
 							table.reload('rtab', {
 
 								where: {
-									ope: 'serch',
+									action: 'serch',
 									target:serchtab,
 									data: reloadtab.val()
 								},
 								page: {
 									curr: 1 //重新从第 1 页开始
-								}
+								},done:function(){this.where={action:'list'};}
 							});
 						}, 800);
 					
@@ -159,14 +150,16 @@
 								btn1: function(index, layero) {
 									var dat = layer.getChildFrame('input', index);
 									table.reload('rtab', {
-
-										where: {
-											action: 'alt',
-											id:dat[0].value,
-											name: dat[1].value,
-											tel: dat[2].value,
-											adderss: dat[3].value
-										},
+									where: {
+										action: 'alt',
+										id:dat[0].value,
+										name: dat[1].value,
+										age: dat[4].value,
+										patino: dat[5].value,
+										wardno:dat[7].value,
+										docname:dat[8].value
+									},
+										done:function(){this.where={action:'list'};}
 									});
 									layer.closeAll();
 								},
@@ -175,11 +168,13 @@
 								},
 								success: function(layero, index) {
 									tmpIndex = index;
+									
 									var body = layer.getChildFrame('body', index);
-									body.find('#name').val(data.name)
-									body.find('#tel').val(data.tel)
-									body.find('#address').val(data.address)
 									body.find('#id').val(data.id)
+									body.find('#name').val(data.name)
+									body.find('#age').val(data.age)
+									body.find('#patino').val(data.inpatientno)
+									
 								},
 								cancel: function(layero, index) {
 
@@ -196,7 +191,7 @@
 									where: {
 										action: 'del',
 										id: data.id
-									},
+									},done:function(){this.where={action:'list'};}
 								});
 								layer.close(index);
 							});

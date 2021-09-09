@@ -125,7 +125,7 @@ public class DeptServlet extends HttpServlet {
 			JSONArray jsonArray = new JSONArray(list);
 			response.setCharacterEncoding("UTF-8");
 			response.setContentType("text/html;charset=UTF-8");
-			String aString = "{\"code\":0,\"count\":" + list.size() + ",\"data\":" + jsonArray.toString() + "}";
+			String aString = "{\"code\":0,\"count\":" + service.countDepts() + ",\"data\":" + jsonArray.toString() + "}";
 			response.getWriter().write(aString);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
