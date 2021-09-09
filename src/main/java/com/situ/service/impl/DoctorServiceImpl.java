@@ -55,5 +55,11 @@ public List<Doctor> serchDocs(String ope,String data) throws SQLException {
 	return dao.findDocs(ope, data);
 }
 
+@Override
+public List<Doctor> serchDocs(String deptid) throws SQLException {
+	// TODO Auto-generated method stub
+	return dao.selectdocs(deptid);
+}
+
 
 }

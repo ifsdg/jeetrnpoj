@@ -32,6 +32,12 @@ public class WardDao {
 			
 			return DataSouseutil.executeQuery(sql, Ward.class);
 		}
+		
+		public List<Ward> selectWards(String deptid) throws SQLException {
+			String sql="SELECT * FROM ward where dept_id="+deptid;
+			return DataSouseutil.executeQuery(sql,Ward.class);
+			
+		}
 		/**
 		 * 计算总数
 		 * @return

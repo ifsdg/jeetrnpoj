@@ -15,6 +15,7 @@ import org.json.JSONArray;
 import com.situ.entry.Doctor;
 import com.situ.service.IdoctorService;
 import com.situ.service.impl.DoctorServiceImpl;
+import com.situ.util.JsonUtil;
 
 /**
  * Servlet implementation class DoctorServlet
@@ -55,6 +56,15 @@ public class DoctorServlet extends HttpServlet {
 			serch(request,response);
 			break;
 		default:
+			try {
+				String aString=JsonUtil.parseJson(service.serchDocs(request.getParameter("id"))) ;
+				response.setCharacterEncoding("UTF-8");
+				response.setContentType("text/html;charset=UTF-8");
+				response.getWriter().write(aString);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			break;
 		}
 	}

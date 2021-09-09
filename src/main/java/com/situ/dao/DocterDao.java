@@ -19,6 +19,12 @@ public class DocterDao {
 		return DataSouseutil.executeQuery(sql,Doctor.class);
 		
 	}
+	
+	public List<Doctor> selectdocs(String deptid) throws SQLException {
+		String sql="select * from doctor where dept_id=? ";
+		return DataSouseutil.executeQuery(sql,Doctor.class,deptid);
+		
+	}
 	/**
 	 * 计算总数
 	 * @return

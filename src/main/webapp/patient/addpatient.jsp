@@ -5,7 +5,7 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<link rel="stylesheet" type="text/css" href="./plugins/layui/css/layui.css" />
+		<link rel="stylesheet" type="text/css" href="../plugins/layui/css/layui.css" />
 		<title></title>
 	</head>
 	<body>
@@ -27,7 +27,7 @@
 					<div class="layui-form-item">
 						<label class="layui-form-label">性别：</label>
 						<div class="layui-input-block">
-							<input type="radio" name="gender" value="M" title="男" autocomplete="off"
+							<input type="radio" name="gender" value="M" title="男"  autocomplete="off"
 								checked="checked" />
 							<input type="radio" name="gender" value="F" title="女" autocomplete="off" />
 						</div>
@@ -44,7 +44,7 @@
 				<div class="layui-form-item">
 					<label class="layui-form-label">住院编号：</label>
 					<div class="layui-input-block">
-						<input type="text" name="mail" required lay-verify="email" class="layui-input"
+						<input type="text" name="patino" required  class="layui-input"
 							autocomplete="off" placeholder="请输入编号" />
 					</div>
 
@@ -54,8 +54,8 @@
 				<div class="layui-form-item">
 					<label class="layui-form-label">科室：</label>
 					<div class="layui-input-block">
-						<select name="dept" id="dept">
-							<option value=""></option>
+						<select name="dept" id="dept" lay-filter="#dept" lay-search>
+							
 						</select>
 					</div>
 
@@ -65,8 +65,7 @@
 					<label class="layui-form-label">病房</label>
 
 					<div class="layui-input-inline">
-						<select style="width: 100px;" class="level-1-select" lay-filter="#bioarea-wrap1level"
-							name="province" lay-search>
+						<select  lay-filter="#room" name="room" id="room" lay-search>
 							<option value="none" selected="selected"></option>
 						</select>
 					</div>
@@ -76,7 +75,7 @@
 				<div class="layui-form-item">
 					<label class="layui-form-label">主治医生：</label>
 					<div class="layui-input-block">
-						<select id="role">
+						<select id="doc" name="=doc" lay-filter="doc">
 							
 						</select>
 					</div>
@@ -96,59 +95,58 @@
 
 			</form>
 		</div>
-		<script src="./js/city.js" type="application/javascript"></script>
-		<script type="application/javascript" src="./plugins/layui/layui.js"></script>
-		<script>
-			// 组件路径
-			layui.config({
-				base: './js/'
-			}).extend({
-				bioarea: 'bioarea'
-			});
-		</script>
+	
+		<script type="application/javascript" src="../plugins/jquery3.6.0.js"></script>
+	<script src="../plugins/layui/layui.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
-			layui.use(['form', 'bioarea'], function() {
-				var form = layui.form,
-					bioarea = layui.bioarea;
-				form.verify({
-					username: function(value, item) { //value：表单的值、item：表单的DOM对象
-						if (!new RegExp("^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$").test(value)) {
-							return '用户名不能有特殊字符';
-						}
-						if (/(^\_)|(\__)|(\_+$)/.test(value)) {
-							return '用户名首尾不能出现下划线\'_\'';
-						}
-						if (/^\d+\d+\d$/.test(value)) {
-							return '用户名不能全为数字';
-						}
-					},
-					pass: [
-						/^[\S]{6,12}$/, '密码必须6到12位，且不能出现空格'
-					]
+			layui.use('form', function() {
+				var form = layui.form;
+				$.ajax({
+				    url:'/dept',
+				    dataType:'json',
+				    type:'post',
+				    success:function(data){
+				    	$.each(data,function(i,item){
+				
+				    		$('#dept').append("<option value='"+item.id+"'>"+item.name+"</option>");//往下拉菜单里添加元素
+							form.render(); 
+				    	})	
+					}
 				});
-
-				bioarea.render({
-					elem: '#bioarea-wrap',
-					defaultData: {
-						provinceCode: '110000',
-						cityCode: '110100',
-						countyCode: '110113'
-					},
-					form
-				});
-				//表单取值
-				layui.$('#LAY-component-form-getval').on('click', function() {
-					var data = form.val('example');
-					console.log(data);
-					alert(JSON.stringify(data));
-				});
-
-				var $ = layui.jquery;
-
-
-
-
+				form.on('select(#dept)',function(data){
+					$.ajax({
+						url:'/Doc',
+						dataType:'json',
+						type:'post',
+						data:{action:'find',id:data.value},
+						success:function(data){
+							$('#doc').empty();	
+							$.each(data,function(i,item){
+									
+								$('#doc').append("<option value='"+item.id+"'>"+item.name+"</option>");//往下拉菜单里添加元素
+								form.render(); 
+							})	
+						}
+					});
+					$.ajax({
+						url:'/Ward',
+						dataType:'json',
+						type:'post',
+						data:{action:'find',id:data.value},
+						success:function(data){
+							$('#room').empty();	
+							$.each(data,function(i,item){
+									
+								$('#room').append("<option value='"+item.wardno+"'>第"+item.wardno+"病房</option>");//往下拉菜单里添加元素
+								form.render(); 
+							})	
+						}
+					});
+				})
+			
+			
 			});
+		
 		</script>
 	</body>
 </html>

@@ -16,6 +16,7 @@ import org.json.JSONArray;
 import com.situ.entry.Ward;
 import com.situ.service.IwardService;
 import com.situ.service.impl.WardServiceImpl;
+import com.situ.util.JsonUtil;
 
 /**
  * Servlet implementation class WardServlet
@@ -55,6 +56,15 @@ public class WardServlet extends HttpServlet {
 			serch(request,response);
 			break;
 		default:
+			try {
+				String aString=JsonUtil.parseJson(service.selectward(request.getParameter("id")));
+				response.setCharacterEncoding("UTF-8");
+				response.setContentType("text/html;charset=UTF-8");
+				response.getWriter().write(aString);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			break;
 		}
 	}

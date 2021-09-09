@@ -17,4 +17,5 @@ public List<Ward> selectwards(String id) throws SQLException;
 	public Integer updateward(Ward ward) throws SQLException;
 	
 	public Integer delward(String id);
+	public List<Ward> selectward(String deptid) throws SQLException;
 }
